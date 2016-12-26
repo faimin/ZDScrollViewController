@@ -24,6 +24,7 @@ UIColor *ZD_RandomColor() {
 
 static NSString * const CellReuseIdentifier = @"ZDScrollCollectionViewCell";
 static NSString * const HeaderReuseIdentifier = @"ZDCollectionHeaderView";
+CGFloat const TestInsetHeight = 200.0;
 
 @interface ZDScrollViewController ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
@@ -52,18 +53,19 @@ static NSString * const HeaderReuseIdentifier = @"ZDCollectionHeaderView";
 }
 
 - (void)setupView {
-    [self.view addSubview:self.headerView];
     [self.view addSubview:self.collectionView];
+    [self.collectionView addSubview:self.headerView];
     
-    //给headerView、collectionView添加约束
-    [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self.view);
-    }];
+    //给collectionView、headerView添加约束
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(self.view);
-        make.top.equalTo(self.headerView.mas_bottom);
+        make.edges.equalTo(self.view).insets(UIEdgeInsetsZero);
     }];
-    
+    [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.collectionView.mas_left);
+        make.bottom.equalTo(self.collectionView.mas_top);
+        make.width.mas_equalTo(ZD_ScreenSize().width);
+        make.height.mas_equalTo(TestInsetHeight);
+    }];
 }
 
 #pragma mark - UICollectionViewDataSource && Delegate
@@ -102,20 +104,15 @@ static NSString * const HeaderReuseIdentifier = @"ZDCollectionHeaderView";
     [self addChildViewController:childVC];
     childVC.view.backgroundColor = ZD_RandomColor();
     cell.subView = childVC.view;
-//    if (childVC.view) {
-//        [self.childViews addObject:childVC.view];
-//    }
     [childVC didMoveToParentViewController:self];
 }
-
-
 
 #pragma mark - System Method
 
 - (void)viewDidLayoutSubviews {
     self.flowLayout.itemSize = (CGSize) {
         ZD_ScreenSize().width,
-        ZD_ScreenSize().height - CGRectGetHeight(self.collectionView.frame)
+        ZD_ScreenSize().height - 64 - TestInsetHeight
     };
     
     [super viewDidLayoutSubviews];
@@ -133,13 +130,6 @@ static NSString * const HeaderReuseIdentifier = @"ZDCollectionHeaderView";
     }
     
     if (viewControllers && [viewControllers isKindOfClass:[NSArray class]]) {
-        //初始化 childViews
-//        if (self.childViews && self.childViews.count > 0) {
-//            [self.childViews removeAllObjects];
-//        } else {
-//            self.childViews = [[NSMutableArray alloc] initWithCapacity:viewControllers.count];
-//        }
-        
         _viewControllers = viewControllers.copy;
     }
 }
@@ -157,6 +147,8 @@ static NSString * const HeaderReuseIdentifier = @"ZDCollectionHeaderView";
     if (!_flowLayout) {
         _flowLayout = [[UICollectionViewFlowLayout alloc] init];
         _flowLayout.minimumInteritemSpacing = 0.0;
+        _flowLayout.minimumLineSpacing = 0.0;
+        _flowLayout.sectionInset = UIEdgeInsetsZero;
         _flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     }
     return _flowLayout;
@@ -165,15 +157,19 @@ static NSString * const HeaderReuseIdentifier = @"ZDCollectionHeaderView";
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.flowLayout];
-        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.backgroundColor = [UIColor grayColor];
         _collectionView.allowsSelection = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
-        _collectionView.bounces = YES;
+        _collectionView.bounces = NO;
         _collectionView.pagingEnabled = YES;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.delaysContentTouches = NO;
+        _collectionView.contentInset = UIEdgeInsetsMake(TestInsetHeight, 0, 0, 0);
+        if ([_collectionView respondsToSelector:@selector(setPrefetchingEnabled:)]) {
+            _collectionView.prefetchingEnabled = NO;
+        }
         
         [_collectionView registerClass:[ZDScrollCollectionViewCell class] forCellWithReuseIdentifier:CellReuseIdentifier];
         [_collectionView registerClass:[ZDCollectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HeaderReuseIdentifier];

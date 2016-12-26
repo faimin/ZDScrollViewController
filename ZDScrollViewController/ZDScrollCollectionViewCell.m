@@ -38,12 +38,11 @@
     
     _subView = subView;
     
-    [self setNeedsLayout];
+    //[self setNeedsLayout];
 }
 
 - (void)prepareForReuse {
     [super prepareForReuse];
-    [_subView removeFromSuperview];
 }
 
 @end

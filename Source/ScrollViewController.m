@@ -131,17 +131,17 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
 }
 
 - (void)scrollViewContentOffsetY:(CGFloat)contentOffsetY {
-    UIScrollView *tableView = ((TableViewController *)self.magicController.currentViewController).tableView;
+     __unused UIScrollView *tableView = ((TableViewController *)self.magicController.currentViewController).tableView;
     NSLog(@"偏移量 => %f", contentOffsetY);
     
     if (contentOffsetY > _headerViewHeight) {//悬停在最上面
-        [self.scrollView.panGestureRecognizer requireGestureRecognizerToFail:tableView.panGestureRecognizer];
-        self.scrollView.canCancelContentTouches = NO;
+        //[self.scrollView.panGestureRecognizer requireGestureRecognizerToFail:tableView.panGestureRecognizer];
+        //self.scrollView.canCancelContentTouches = NO;
         [self.scrollView setContentOffset:CGPointMake(0, _headerViewHeight) animated:NO];
     }
     else {
-        [tableView.panGestureRecognizer requireGestureRecognizerToFail:self.scrollView.panGestureRecognizer];
-        self.scrollView.canCancelContentTouches = YES;
+        //[tableView.panGestureRecognizer requireGestureRecognizerToFail:self.scrollView.panGestureRecognizer];
+        //self.scrollView.canCancelContentTouches = YES;
     }
 }
 
@@ -163,7 +163,6 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
 - (UIViewController *)magicView:(VTMagicView *)magicView viewControllerAtPage:(NSUInteger)pageIndex {
     if (pageIndex == 0) {
         TableViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TableViewController class])];
-        [vc.tableView.panGestureRecognizer requireGestureRecognizerToFail:self.scrollView.panGestureRecognizer];
         return vc;
     }
     else {
@@ -195,6 +194,21 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
     
     [super updateViewConstraints];
 }
+
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+//    UIView *currentMagicView = self.magicController.currentViewController.view;
+//    CGPoint point = [touches.anyObject locationInView:currentMagicView];
+//    if (CGRectContainsPoint(currentMagicView.frame, point)) {
+//        NSLog(@"在子scrollView上");
+//    }
+//}
+//
+//- (BOOL)touchesShouldBegin:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event inContentView:(UIView *)view {
+//    if (view == self.magicController.view) {
+//        NSLog(@"");
+//    }
+//    return YES;
+//}
 
 #pragma mark - Private Method
 

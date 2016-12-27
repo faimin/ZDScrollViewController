@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "ZDScrollViewController.h"
+#import "ScrollViewController.h"
 
-@interface ZDViewController : ZDScrollViewController
+@interface ZDViewController : ScrollViewController
 
 @end

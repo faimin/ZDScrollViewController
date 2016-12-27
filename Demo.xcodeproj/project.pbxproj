@@ -23,6 +23,8 @@
 		BC6D0F7D1E0D0E0000973D87 /* ZDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6D0F7C1E0D0E0000973D87 /* ZDViewController.m */; };
 		BC6D0F801E0D318E00973D87 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6D0F7F1E0D318E00973D87 /* TableViewController.m */; };
 		BC6D0F831E0D433E00973D87 /* ZDCollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6D0F821E0D433E00973D87 /* ZDCollectionHeaderView.m */; };
+		BC6D0F861E110FF800973D87 /* ZDHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6D0F851E110FF800973D87 /* ZDHeaderView.m */; };
+		BC6D0F8A1E1143F300973D87 /* ScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6D0F891E1143F300973D87 /* ScrollViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,10 @@
 		BC6D0F7F1E0D318E00973D87 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		BC6D0F811E0D433E00973D87 /* ZDCollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZDCollectionHeaderView.h; sourceTree = "<group>"; };
 		BC6D0F821E0D433E00973D87 /* ZDCollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDCollectionHeaderView.m; sourceTree = "<group>"; };
+		BC6D0F841E110FF800973D87 /* ZDHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZDHeaderView.h; sourceTree = "<group>"; };
+		BC6D0F851E110FF800973D87 /* ZDHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDHeaderView.m; sourceTree = "<group>"; };
+		BC6D0F881E1143F300973D87 /* ScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewController.h; sourceTree = "<group>"; };
+		BC6D0F891E1143F300973D87 /* ScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewController.m; sourceTree = "<group>"; };
 		EA8E95C250A081D8EE418E72 /* Pods-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Demo/Pods-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		F3BEC822FC7096D5053E69DF /* libPods-Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -123,6 +129,7 @@
 		BC6D0F2B1E0CF16500973D87 = {
 			isa = PBXGroup;
 			children = (
+				BC6D0F871E1143B600973D87 /* Source */,
 				BC6D0F6A1E0CF18000973D87 /* ZDScrollViewController */,
 				BC6D0F361E0CF16500973D87 /* Demo */,
 				BC6D0F501E0CF16500973D87 /* DemoTests */,
@@ -194,6 +201,8 @@
 				BC6D0F741E0D07D000973D87 /* ZDScrollCollectionViewCell.m */,
 				BC6D0F811E0D433E00973D87 /* ZDCollectionHeaderView.h */,
 				BC6D0F821E0D433E00973D87 /* ZDCollectionHeaderView.m */,
+				BC6D0F841E110FF800973D87 /* ZDHeaderView.h */,
+				BC6D0F851E110FF800973D87 /* ZDHeaderView.m */,
 			);
 			path = ZDScrollViewController;
 			sourceTree = "<group>";
@@ -219,6 +228,15 @@
 				BC6D0F791E0D0D1800973D87 /* ZDView.xib */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		BC6D0F871E1143B600973D87 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				BC6D0F881E1143F300973D87 /* ScrollViewController.h */,
+				BC6D0F891E1143F300973D87 /* ScrollViewController.m */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -394,6 +412,8 @@
 				BC6D0F6E1E0CF22B00973D87 /* ViewController.m in Sources */,
 				BC6D0F831E0D433E00973D87 /* ZDCollectionHeaderView.m in Sources */,
 				BC6D0F3C1E0CF16500973D87 /* AppDelegate.m in Sources */,
+				BC6D0F861E110FF800973D87 /* ZDHeaderView.m in Sources */,
+				BC6D0F8A1E1143F300973D87 /* ScrollViewController.m in Sources */,
 				BC6D0F7D1E0D0E0000973D87 /* ZDViewController.m in Sources */,
 				BC6D0F781E0D0D0400973D87 /* ZDView.m in Sources */,
 				BC6D0F391E0CF16500973D87 /* main.m in Sources */,

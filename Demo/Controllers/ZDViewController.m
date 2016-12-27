@@ -15,17 +15,21 @@
 @implementation ZDViewController
 
 - (void)viewDidLoad {
+    NSMutableArray *vcsArr = @[].mutableCopy;
     
     self.headerView = [[NSBundle mainBundle] loadNibNamed:@"ZDView" owner:nil options:nil].lastObject;
-    UIViewController *VC = [self viewControllerFromStoryBoardWithId:@"TableViewController"];
-    VC.view.backgroundColor = ZD_RandomColor();
-    VC.automaticallyAdjustsScrollViewInsets = NO;
-    VC.edgesForExtendedLayout = UIRectEdgeNone;
-    self.viewControllers = @[VC, VC, VC];
+//    for (int i = 0; i < 3; i++) {
+//        UIViewController *VC = [self viewControllerFromStoryBoardWithId:@"TableViewController"];
+//        VC.view.backgroundColor = ZD_RandomColor();
+//        VC.automaticallyAdjustsScrollViewInsets = NO;
+//        VC.edgesForExtendedLayout = UIRectEdgeNone;
+//        vcsArr[i] = VC;
+//    }
+//    self.viewControllers = vcsArr;
     
     [super viewDidLoad];
     
-    [self reloadData];
+//    [self reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

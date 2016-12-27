@@ -54,16 +54,14 @@ CGFloat const TestInsetHeight = 200.0;
 
 - (void)setupView {
     [self.view addSubview:self.collectionView];
-    [self.collectionView addSubview:self.headerView];
+    [self.view addSubview:self.headerView];
     
     //给collectionView、headerView添加约束
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view).insets(UIEdgeInsetsZero);
     }];
     [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.collectionView.mas_left);
-        make.bottom.equalTo(self.collectionView.mas_top);
-        make.width.mas_equalTo(ZD_ScreenSize().width);
+        make.top.left.right.equalTo(self.view);
         make.height.mas_equalTo(TestInsetHeight);
     }];
 }
@@ -76,6 +74,7 @@ CGFloat const TestInsetHeight = 200.0;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     __kindof UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellReuseIdentifier forIndexPath:indexPath];
+    //配置子view
     [self configCollectionViewCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -98,8 +97,7 @@ CGFloat const TestInsetHeight = 200.0;
 #pragma mark - Private Method
 
 - (void)configCollectionViewCell:(ZDScrollCollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    cell.backgroundView.backgroundColor = ZD_RandomColor();
-    
+    NSLog(@"indexPath.row = %zd", indexPath.row);
     UIViewController *childVC = self.viewControllers[indexPath.row];
     [self addChildViewController:childVC];
     childVC.view.backgroundColor = ZD_RandomColor();

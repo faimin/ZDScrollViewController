@@ -23,22 +23,14 @@
 }
 
 - (void)setSubView:(UIView *)subView {
-    if (!subView) {
-        NSParameterAssert(subView);
-        return;
+    if (_subView != subView) {
+        [_subView removeFromSuperview];
+        [self.contentView addSubview:subView];
+        [subView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView);
+        }];
+        _subView = subView;
     }
-    
-//    if (_subView) {
-//        [_subView removeFromSuperview];
-//    }
-    [self.contentView addSubview:subView];
-    [subView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.contentView);
-    }];
-    
-    _subView = subView;
-    
-    //[self setNeedsLayout];
 }
 
 - (void)prepareForReuse {

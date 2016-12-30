@@ -37,11 +37,42 @@ static CGSize ZD_ScreenSize() {
 static CGFloat const TempHeight = 1000.0;
 static NSString *const contentOffsetKeyPath = @"contentOffset";
 
-@interface ScrollViewController ()<UIScrollViewDelegate, VTMagicViewDataSource, VTMagicViewDelegate>
-@property (nonatomic, strong, readwrite) UIScrollView *scrollView;
+@interface ZDScrollView : UIScrollView <UIGestureRecognizerDelegate>
+
+@end
+
+@implementation ZDScrollView
+
+- (instancetype)init {
+    if (self = [super init]) {
+        [self config];
+    }
+    return self;
+}
+
+- (void)config {
+    
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    return YES;
+}
+
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+//    return NO;
+//}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+@end
+
+@interface ScrollViewController ()<VTMagicViewDataSource, VTMagicViewDelegate>
+@property (nonatomic, strong, readwrite) ZDScrollView *scrollView;
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) VTMagicController *magicController;
-@property (nonatomic, weak) VTMagicView *magicView;
+@property (nonatomic, weak  ) VTMagicView *magicView;
 @property (nonatomic, assign) CGFloat headerViewHeight;
 @end
 
@@ -131,17 +162,20 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
 }
 
 - (void)scrollViewContentOffsetY:(CGFloat)contentOffsetY {
-     __unused UIScrollView *tableView = ((TableViewController *)self.magicController.currentViewController).tableView;
+    UIScrollView *tableView = nil;
+    if ([self.magicController.currentViewController respondsToSelector:@selector(tableView)]) {
+        tableView = [self.magicController.currentViewController tableView];
+    }
+    else {
+        return;
+    }
     NSLog(@"偏移量 => %f", contentOffsetY);
     
     if (contentOffsetY > _headerViewHeight) {//悬停在最上面
-        //[self.scrollView.panGestureRecognizer requireGestureRecognizerToFail:tableView.panGestureRecognizer];
-        //self.scrollView.canCancelContentTouches = NO;
         [self.scrollView setContentOffset:CGPointMake(0, _headerViewHeight) animated:NO];
     }
     else {
-        //[tableView.panGestureRecognizer requireGestureRecognizerToFail:self.scrollView.panGestureRecognizer];
-        //self.scrollView.canCancelContentTouches = YES;
+        
     }
 }
 
@@ -163,6 +197,7 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
 - (UIViewController *)magicView:(VTMagicView *)magicView viewControllerAtPage:(NSUInteger)pageIndex {
     if (pageIndex == 0) {
         TableViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TableViewController class])];
+        //[vc.tableView.panGestureRecognizer requireGestureRecognizerToFail:self.scrollView.panGestureRecognizer];
         return vc;
     }
     else {
@@ -172,7 +207,8 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
     }
 }
 
-#pragma mark - UIScrollViewDelegate
+#pragma mark - UIGestureRecognizerDelegate
+
 
 
 #pragma mark - System Method
@@ -216,12 +252,11 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
 
 #pragma mark - Property
 //Getter
-- (UIScrollView *)scrollView {
+- (ZDScrollView *)scrollView {
     if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] init];
+        _scrollView = [[ZDScrollView alloc] init];
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.showsVerticalScrollIndicator = NO;
-        //_scrollView.delaysContentTouches = NO;
         [self.view addSubview:_scrollView];
     }
     return _scrollView;
@@ -248,24 +283,5 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
     }
     return _magicController;
 }
-
-//Setter
-//- (void)setViewControllers:(NSArray<UIViewController *> *)viewControllers {
-//    if (_viewControllers && _viewControllers.count > 0) {
-//        for (UIViewController *controller in _viewControllers) {
-//            [controller willMoveToParentViewController:nil];
-//            [controller.view removeFromSuperview];
-//            [controller removeFromParentViewController];
-//        }
-//    }
-//    
-//    if (viewControllers && [viewControllers isKindOfClass:[NSArray class]]) {
-//        _viewControllers = viewControllers.copy;
-//    }
-//}
-
-//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-//    return NO;
-//}
 
 @end

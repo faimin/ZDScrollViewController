@@ -9,7 +9,9 @@
 #import "ScrollViewController.h"
 #import <Masonry.h>
 #import <VTMagic.h>
-#import "TableViewController.h"
+
+static CGFloat const TempHeight = 1000.0;
+static NSString *const contentOffsetKeyPath = @"contentOffset";
 
 static UIColor *ZD_RandomColor() {
     CGFloat hue = (arc4random() % 256 / 256.0);
@@ -34,8 +36,6 @@ static CGSize ZD_ScreenSize() {
     return [UIScreen mainScreen].bounds.size;
 }
 
-static CGFloat const TempHeight = 1000.0;
-static NSString *const contentOffsetKeyPath = @"contentOffset";
 
 @interface ZDScrollView : UIScrollView <UIGestureRecognizerDelegate>
 
@@ -58,22 +58,20 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
     return YES;
 }
 
-//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-//    return NO;
-//}
-
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
 }
 
 @end
 
-@interface ScrollViewController ()<VTMagicViewDataSource, VTMagicViewDelegate>
+@interface ScrollViewController ()<VTMagicViewDataSource, VTMagicViewDelegate, UIScrollViewDelegate>
 @property (nonatomic, strong, readwrite) ZDScrollView *scrollView;
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) VTMagicController *magicController;
 @property (nonatomic, weak  ) VTMagicView *magicView;
 @property (nonatomic, assign) CGFloat headerViewHeight;
+@property (nonatomic, assign) BOOL isCanScroll; //能够滑动
+@property (nonatomic, assign) CGFloat lastContentOffsetY;
 @end
 
 @implementation ScrollViewController
@@ -157,26 +155,56 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
     if ([keyPath isEqualToString:contentOffsetKeyPath]) {
         NSValue *value = change[NSKeyValueChangeNewKey];
         CGPoint point = value.CGPointValue;
-        [self scrollViewContentOffsetY:point.y];
+        if ([object isKindOfClass:[self.scrollView class]]) {
+            [self scrollViewContentOffsetY:point.y];
+        }
     }
 }
 
 - (void)scrollViewContentOffsetY:(CGFloat)contentOffsetY {
-    UIScrollView *tableView = nil;
-    if ([self.magicController.currentViewController respondsToSelector:@selector(tableView)]) {
-        tableView = [self.magicController.currentViewController tableView];
+    UIScrollView *currentScrollView = nil;
+    if ([self.magicController.currentViewController respondsToSelector:@selector(scrollView)]) {
+        currentScrollView = [self.magicController.currentViewController scrollView];
     }
     else {
         return;
     }
-    NSLog(@"偏移量 => %f", contentOffsetY);
     
-    if (contentOffsetY > _headerViewHeight) {//悬停在最上面
+    //NSLog(@"偏移量 => %f", contentOffsetY);
+    
+    if (contentOffsetY > _headerViewHeight) { //悬停在最上面
         [self.scrollView setContentOffset:CGPointMake(0, _headerViewHeight) animated:NO];
+        self.isCanScroll = YES;
+    }
+    
+    if (self.lastContentOffsetY > contentOffsetY) {
+        NSLog(@"↑");
     }
     else {
-        
+        NSLog(@"⬇️");
+        //TODO:
+        if (contentOffsetY >= _headerViewHeight && currentScrollView.contentOffset.y > 0) {
+            [self.scrollView setContentOffset:CGPointMake(0, _headerViewHeight) animated:NO];
+            self.isCanScroll = YES;
+        }
+        else {
+            
+        }
     }
+    
+    self.lastContentOffsetY = contentOffsetY;
+}
+
+- (void)postScrollNotification:(BOOL)isCanScroll {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kIsCanScrollNotificationName
+                                                        object:self
+                                                      userInfo:@{isCanScrollKeyPath : @(isCanScroll)}];
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    NSLog(@"拖拽");
 }
 
 #pragma mark - VTMagicViewDataSource && Delegate
@@ -196,7 +224,7 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
 
 - (UIViewController *)magicView:(VTMagicView *)magicView viewControllerAtPage:(NSUInteger)pageIndex {
     if (pageIndex == 0) {
-        TableViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TableViewController class])];
+        UIViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TableViewController"];
         //[vc.tableView.panGestureRecognizer requireGestureRecognizerToFail:self.scrollView.panGestureRecognizer];
         return vc;
     }
@@ -218,7 +246,6 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
     NSLog(@"====> %f", headerViewHeith);
     _headerViewHeight = headerViewHeith;
     [super viewDidLayoutSubviews];
-    
 }
 
 - (void)updateViewConstraints {
@@ -231,26 +258,17 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
     [super updateViewConstraints];
 }
 
-//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-//    UIView *currentMagicView = self.magicController.currentViewController.view;
-//    CGPoint point = [touches.anyObject locationInView:currentMagicView];
-//    if (CGRectContainsPoint(currentMagicView.frame, point)) {
-//        NSLog(@"在子scrollView上");
-//    }
-//}
-//
-//- (BOOL)touchesShouldBegin:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event inContentView:(UIView *)view {
-//    if (view == self.magicController.view) {
-//        NSLog(@"");
-//    }
-//    return YES;
-//}
-
 #pragma mark - Private Method
 
 
 
 #pragma mark - Property
+//Setter
+- (void)setIsCanScroll:(BOOL)isCanScroll {
+    [self postScrollNotification:isCanScroll];
+    _isCanScroll = isCanScroll;
+}
+
 //Getter
 - (ZDScrollView *)scrollView {
     if (!_scrollView) {
@@ -283,5 +301,7 @@ static NSString *const contentOffsetKeyPath = @"contentOffset";
     }
     return _magicController;
 }
+
+
 
 @end

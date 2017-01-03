@@ -79,6 +79,7 @@
 		BC6D0F851E110FF800973D87 /* ZDHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDHeaderView.m; sourceTree = "<group>"; };
 		BC6D0F881E1143F300973D87 /* ScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewController.h; sourceTree = "<group>"; };
 		BC6D0F891E1143F300973D87 /* ScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewController.m; sourceTree = "<group>"; };
+		BC6D0FBE1E1BCAF200973D87 /* ScrollProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollProtocol.h; sourceTree = "<group>"; };
 		EA8E95C250A081D8EE418E72 /* Pods-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Demo/Pods-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		F3BEC822FC7096D5053E69DF /* libPods-Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -235,6 +236,7 @@
 			children = (
 				BC6D0F881E1143F300973D87 /* ScrollViewController.h */,
 				BC6D0F891E1143F300973D87 /* ScrollViewController.m */,
+				BC6D0FBE1E1BCAF200973D87 /* ScrollProtocol.h */,
 			);
 			path = Source;
 			sourceTree = "<group>";

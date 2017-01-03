@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ScrollProtocol.h"
 
-@interface TableViewController : UITableViewController
+@interface TableViewController : UITableViewController<ScrollViewProtocol>
 
 @end

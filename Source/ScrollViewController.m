@@ -5,6 +5,7 @@
 //  Created by 符现超 on 2016/12/26.
 //  Copyright © 2016年 Zero.D.Saber. All rights reserved.
 //
+//  PS: 控制器添加scrollView，scrollView上再添加滑动控制器
 
 #import "ScrollViewController.h"
 #import <Masonry.h>
@@ -163,24 +164,28 @@ static CGSize ZD_ScreenSize() {
 
 - (void)scrollViewContentOffsetY:(CGFloat)contentOffsetY {
     UIScrollView *currentScrollView = nil;
+    CGFloat currentScrollViewContentOffsetY = 0;
     if ([self.magicController.currentViewController respondsToSelector:@selector(scrollView)]) {
         currentScrollView = [self.magicController.currentViewController scrollView];
+        currentScrollViewContentOffsetY = currentScrollView.contentOffset.y;
     }
     else {
         return;
     }
-    
     //NSLog(@"偏移量 => %f", contentOffsetY);
     
     if (contentOffsetY > _headerViewHeight) { //悬停在最上面
         [self.scrollView setContentOffset:CGPointMake(0, _headerViewHeight) animated:NO];
         self.isCanScroll = YES;
     }
+    else if (contentOffsetY < _headerViewHeight) {
+        //[currentScrollView setContentOffset:CGPointMake(0, currentScrollViewContentOffsetY) animated:NO];
+    }
     
     if (self.lastContentOffsetY > contentOffsetY) {
         NSLog(@"↑");
     }
-    else {
+    else if (self.lastContentOffsetY < contentOffsetY) {
         NSLog(@"⬇️");
         //TODO:
         if (contentOffsetY >= _headerViewHeight && currentScrollView.contentOffset.y > 0) {

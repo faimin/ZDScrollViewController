@@ -9,7 +9,7 @@
 #import "TableViewController.h"
 #import "ScrollViewController.h"
 
-@interface TableViewController ()
+@interface TableViewController () <UIGestureRecognizerDelegate>
 @property (nonatomic, assign) CGFloat lastContentOffsetY;
 @property (nonatomic, assign) BOOL isCanScroll;
 @end

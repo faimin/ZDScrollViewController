@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ZDScrollViewController.h"
 #import "ScrollViewController.h"
+#import "ZDTableViewController.h"
 
 @interface ZDViewController : ScrollViewController
 

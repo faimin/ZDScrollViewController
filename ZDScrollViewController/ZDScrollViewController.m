@@ -4,7 +4,7 @@
 //
 //  Created by 符现超 on 2016/12/23.
 //  Copyright © 2016年 Zero.D.Saber. All rights reserved.
-//
+//  https://github.com/Huanhoo/HHHorizontalPagingView
 
 #import "ZDScrollViewController.h"
 #import <Masonry.h>

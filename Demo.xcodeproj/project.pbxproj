@@ -28,6 +28,7 @@
 		BCD88CF51E26556B0038C78B /* DemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD88CF41E26556B0038C78B /* DemoVC.m */; };
 		BCD88D041E2731E80038C78B /* ZDTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD88D011E2731E80038C78B /* ZDTableViewCell.m */; };
 		BCD88D051E2731E80038C78B /* ZDTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD88D031E2731E80038C78B /* ZDTableViewController.m */; };
+		BCE781631E76512F00AF4411 /* ZDHorizonPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE781621E76512F00AF4411 /* ZDHorizonPageScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,8 @@
 		BCD88D011E2731E80038C78B /* ZDTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDTableViewCell.m; sourceTree = "<group>"; };
 		BCD88D021E2731E80038C78B /* ZDTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZDTableViewController.h; sourceTree = "<group>"; };
 		BCD88D031E2731E80038C78B /* ZDTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDTableViewController.m; sourceTree = "<group>"; };
+		BCE781611E76512F00AF4411 /* ZDHorizonPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZDHorizonPageScrollView.h; sourceTree = "<group>"; };
+		BCE781621E76512F00AF4411 /* ZDHorizonPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDHorizonPageScrollView.m; sourceTree = "<group>"; };
 		EA8E95C250A081D8EE418E72 /* Pods-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Demo/Pods-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		F3BEC822FC7096D5053E69DF /* libPods-Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -139,6 +142,7 @@
 		BC6D0F2B1E0CF16500973D87 = {
 			isa = PBXGroup;
 			children = (
+				BCE781601E76510000AF4411 /* HorizonScrollView */,
 				BC6D0F871E1143B600973D87 /* Source */,
 				BC6D0F6A1E0CF18000973D87 /* ZDScrollViewController */,
 				BC6D0F361E0CF16500973D87 /* Demo */,
@@ -262,6 +266,15 @@
 				BCD88D031E2731E80038C78B /* ZDTableViewController.m */,
 			);
 			path = Deprecated;
+			sourceTree = "<group>";
+		};
+		BCE781601E76510000AF4411 /* HorizonScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				BCE781611E76512F00AF4411 /* ZDHorizonPageScrollView.h */,
+				BCE781621E76512F00AF4411 /* ZDHorizonPageScrollView.m */,
+			);
+			path = HorizonScrollView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -445,6 +458,7 @@
 				BC6D0F391E0CF16500973D87 /* main.m in Sources */,
 				BC6D0F751E0D07D000973D87 /* ZDScrollCollectionViewCell.m in Sources */,
 				BCD88D041E2731E80038C78B /* ZDTableViewCell.m in Sources */,
+				BCE781631E76512F00AF4411 /* ZDHorizonPageScrollView.m in Sources */,
 				BCD88CF51E26556B0038C78B /* DemoVC.m in Sources */,
 				BC6D0F721E0CF28000973D87 /* ZDScrollViewController.m in Sources */,
 				BC6D0F801E0D318E00973D87 /* TableViewController.m in Sources */,
